@@ -22,7 +22,13 @@ class App extends Component {
     })
   }
   removeItem(index){
-    console.log(index)
+    console.log(index);
+    this.setState({
+      list: [
+        ...this.state.list.slice(0 , index),
+        ...this.state.list.slice(index + 1)
+      ]
+    })
   }
   render() {
     return (
@@ -44,7 +50,7 @@ class App extends Component {
               key={index} 
               name={item} 
               index={index}
-              deleteHandler={event => this.remove(event) }
+              deleteHandler={this.removeItem.bind(this) }
           /> )
           )
         }
@@ -58,13 +64,12 @@ export default App;
 
 class Item extends Component{
   remove(event){
-    console.log(this.props.index);
+    this.props.deleteHandler(this.props.index)
   }
   render(){
     return (
       <li>{ this.props.name } 
-        <a 
-        href='#'
+        <a href='#'
         id={ this.props.index }
         onClick={ event => this.remove(event) }
         >
